@@ -30,7 +30,7 @@ public class Maze {
         this.column = column;
         for(int i = 0; i < MAX_VERTEX_COUNT; i++) {
             for(int j = 0; j < MAX_VERTEX_COUNT; j++) {
-                this.adjacencyList[i][j] = 0;
+                this.adjacencyList[i][j] = 0;   // Fill adjacency matrix with 0 (no edges)
             }
         }
         for (int x = 0; x < row; x++){
@@ -38,7 +38,6 @@ public class Maze {
                 maze[(x * row) + y] = new MazeCell(x, y,(x * row) + y);
             }
         }
-        //this.generateMaze();
     }
 
     /**
@@ -118,6 +117,20 @@ public class Maze {
         return neighbors;
     }
 
+    /**
+     * Adds an bidirectional edge between two nodes (vertices)
+     * @param nodeA first node (vertex) to connect
+     * @param nodeB second node (vertex) to connect
+     */
+    public void addEdge(int nodeA, int nodeB) {
+        MazeCell vertexA = maze[nodeA];
+        MazeCell vertexB = maze[nodeB];
+        vertexA.addAccessibleCells(vertexB);
+        vertexB.addAccessibleCells(vertexA);
+        adjacencyList[nodeA][nodeB] = 1;
+        adjacencyList[nodeB][nodeA] = 1;
+    }
+
     // not yet tested
     public void generateMaze() {
         Random r = new Random();
@@ -126,6 +139,7 @@ public class Maze {
         int totalCells = row * column;
         MazeCell currentCell = maze[0];
         int visitedCells = 1;
+        // While not all cells were visited
         while(visitedCells < totalCells) {
             ArrayList<MazeCell> possibleNeighbors = findAllNeighbors(currentCell);
             // Remove all neighboring cells that is connected to another cell
@@ -139,10 +153,7 @@ public class Maze {
             if(possibleNeighbors.size() > 0) {
                 MazeCell randomCell = possibleNeighbors.get(r.nextInt(possibleNeighbors.size()));
                 // Knocking down wall
-                currentCell.addAccessibleCells(randomCell);
-                randomCell.addAccessibleCells(currentCell);
-                adjacencyList[currentCell.getNodeID()][randomCell.getNodeID()] = 1;
-                adjacencyList[randomCell.getNodeID()][currentCell.getNodeID()] = 1;
+                addEdge(currentCell.getNodeID(), randomCell.getNodeID());
                 cellStack.push(currentCell);
                 currentCell = randomCell;
                 visitedCells++;
@@ -159,5 +170,49 @@ public class Maze {
      */
     public MazeCell[] getMaze() {
         return maze;
+    }
+
+    public String toString() {
+        int numberOfStringRows = (2* this.row) + 1;
+        int numberOfStringColumns = (2 * this.column) + 1;
+        String[][] mazePrint = new String[numberOfStringRows][numberOfStringColumns];
+        for(int x = 0; x < numberOfStringRows; x++) {
+            for(int y = 0; y < numberOfStringColumns; y++) {
+                if(x % 2 == 0) {
+                    if(y % 2 == 0){
+                        mazePrint[x][y] = "+";
+                    }
+                    else {
+                        mazePrint[x][y] = "-";
+                    }
+                }
+                if(x % 2 == 1) {
+                    if(y % 2 == 0){
+                        mazePrint[x][y] = "|";
+                    }
+                    else {
+                        mazePrint[x][y] = " ";
+                    }
+                }
+                if(x == 0) {
+                    if(y == 1) {
+                        mazePrint[x][y] = " ";
+                    }
+                }
+                else if(x == numberOfStringRows - 1) {
+                    if(y == numberOfStringColumns - 2) {
+                        mazePrint[x][y] = " ";
+                    }
+                }
+            }
+        }
+        String fullMazeInLine = "";
+        for(int x = 0; x < numberOfStringRows; x++){
+            for(int y = 0; y < numberOfStringColumns; y++) {
+                fullMazeInLine = fullMazeInLine + mazePrint[x][y];
+            }
+            fullMazeInLine = fullMazeInLine + System.lineSeparator();
+        }
+        return fullMazeInLine;
     }
 }

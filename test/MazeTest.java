@@ -24,4 +24,17 @@ public class MazeTest {
     @Test
     public void generateMaze() {
     }
+
+    @Test
+    public void testToString() {
+        Maze testMaze = new Maze(3, 3);
+        String test = testMaze.toString();
+        String line1 = "+ +-+-+" + System.lineSeparator();
+        String line2 = "| | | |" + System.lineSeparator();
+        String line3 = "+-+-+-+" + System.lineSeparator();
+        String lastLine = "+-+-+ +" + System.lineSeparator();
+        String expected = line1 + line2 + line3 + line2 + line3 + line2 + lastLine;
+        System.out.println(test);
+        assertEquals(expected, test);
+    }
 }
