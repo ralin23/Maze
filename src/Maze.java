@@ -172,12 +172,21 @@ public class Maze {
         return maze;
     }
 
+    /**
+     * Maps out the maze with all applicable walls
+     * @return a String containing maze data
+     */
     public String toString() {
         int numberOfStringRows = (2* this.row) + 1;
         int numberOfStringColumns = (2 * this.column) + 1;
         String[][] mazePrint = new String[numberOfStringRows][numberOfStringColumns];
+        // Just prints out the basic skeleton of this maze
+        // where the space above starting location is empty and
+        // the space below the stopping location is empty
         for(int x = 0; x < numberOfStringRows; x++) {
             for(int y = 0; y < numberOfStringColumns; y++) {
+                // fill in walls and corners where needed and
+                // spaces where the vertices are located
                 if(x % 2 == 0) {
                     if(y % 2 == 0){
                         mazePrint[x][y] = "+";
@@ -194,11 +203,13 @@ public class Maze {
                         mazePrint[x][y] = " ";
                     }
                 }
+                // starting point exception
                 if(x == 0) {
                     if(y == 1) {
                         mazePrint[x][y] = " ";
                     }
                 }
+                // ending point exception
                 else if(x == numberOfStringRows - 1) {
                     if(y == numberOfStringColumns - 2) {
                         mazePrint[x][y] = " ";
@@ -206,6 +217,11 @@ public class Maze {
                 }
             }
         }
+        // Walls that should not exist will be removed one by one
+        // NOT YET IMPLEMENTED
+
+        // Take a row from 2d array and copy it into a single String line
+        // and adding a new line when we reach the end of the row
         String fullMazeInLine = "";
         for(int x = 0; x < numberOfStringRows; x++){
             for(int y = 0; y < numberOfStringColumns; y++) {
