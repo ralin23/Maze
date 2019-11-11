@@ -4,15 +4,16 @@ import java.util.Stack;
 
 public class Maze {
     /* Maze Representation 3x3 Ex:
-    + +----     where 0 is entry and 8 is exit
+    + +-+-+     where 0 is entry and 8 is exit
     |0|1|2|     Using an array of adjacency lists, each number is an index of an array A
-    + +----     A[index] has a linked list which contains connected paths to that node
+    + +-+-+     A[index] has a linked list which contains connected paths to that node
     |3 4|5|     Example to left shows A[0] -> 3, A[3] -> 4
-    -------     Legend: + corners, | or - walls
+    +-+-+-+     Legend: + corners, | or - walls
     |6|7|8|
-    ----+ +
+    +-+-+ +
     */
     private MazeCell[] maze;
+    private int[][] adjacencyList;      // Adjacency matrix
     private int row;
     private int column;
 
@@ -22,14 +23,21 @@ public class Maze {
      * @param column number of columns (y)
      */
     Maze(int row, int column) {
-        this.maze = new MazeCell[row * column];
+        final int MAX_VERTEX_COUNT = row * column;
+        this.maze = new MazeCell[MAX_VERTEX_COUNT];
+        this.adjacencyList = new int[MAX_VERTEX_COUNT][MAX_VERTEX_COUNT];
+        this.row = row;
+        this.column = column;
+        for(int i = 0; i < MAX_VERTEX_COUNT; i++) {
+            for(int j = 0; j < MAX_VERTEX_COUNT; j++) {
+                this.adjacencyList[i][j] = 0;
+            }
+        }
         for (int x = 0; x < row; x++){
             for (int y = 0; y < column; y++){
                 maze[(x * row) + y] = new MazeCell(x, y,(x * row) + y);
             }
         }
-        this.row = row;
-        this.column = column;
         //this.generateMaze();
     }
 
@@ -120,11 +128,21 @@ public class Maze {
         int visitedCells = 1;
         while(visitedCells < totalCells) {
             ArrayList<MazeCell> possibleNeighbors = findAllNeighbors(currentCell);
+            // Remove all neighboring cells that is connected to another cell
+            ArrayList<MazeCell> neighborsToRemove = new ArrayList<>();
+            for(MazeCell cell: possibleNeighbors) {
+                if(!cell.getAccessibleCells().isEmpty()) {
+                    neighborsToRemove.add(cell);
+                }
+            }
+            possibleNeighbors.removeAll(neighborsToRemove);
             if(possibleNeighbors.size() > 0) {
                 MazeCell randomCell = possibleNeighbors.get(r.nextInt(possibleNeighbors.size()));
                 // Knocking down wall
                 currentCell.addAccessibleCells(randomCell);
                 randomCell.addAccessibleCells(currentCell);
+                adjacencyList[currentCell.getNodeID()][randomCell.getNodeID()] = 1;
+                adjacencyList[randomCell.getNodeID()][currentCell.getNodeID()] = 1;
                 cellStack.push(currentCell);
                 currentCell = randomCell;
                 visitedCells++;

@@ -29,6 +29,10 @@ public class MazeCell {
         return nodeID;
     }
 
+    public LinkedList<MazeCell> getAccessibleCells(){
+        return accessibleCells;
+    }
+
     public void addAccessibleCells(MazeCell neighbor){
         accessibleCells.add(neighbor);
     }
