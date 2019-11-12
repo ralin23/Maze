@@ -27,13 +27,21 @@ public class MazeTest {
 
     @Test
     public void testToString() {
-        Maze testMaze = new Maze(3, 3);
+        Maze testMaze = new Maze(4, 4);
+        testMaze.addEdge(3, 2);
+        testMaze.addEdge(2, 1);
+        testMaze.addEdge(9,13);
         String test = testMaze.toString();
-        String line1 = "+ +-+-+" + System.lineSeparator();
-        String line2 = "| | | |" + System.lineSeparator();
-        String line3 = "+-+-+-+" + System.lineSeparator();
-        String lastLine = "+-+-+ +" + System.lineSeparator();
-        String expected = line1 + line2 + line3 + line2 + line3 + line2 + lastLine;
+        String line1 = "+ +-+-+-+" + System.lineSeparator();
+        String line2 = "| |     |" + System.lineSeparator();
+        String line3 = "+-+-+-+-+" + System.lineSeparator();
+        String line4 = "| | | | |" + System.lineSeparator();
+        String line5 = "+-+-+-+-+" + System.lineSeparator();
+        String line6 = "| | | | |" + System.lineSeparator();
+        String line7 = "+-+ +-+-+" + System.lineSeparator();
+        String line8 = "| | | | |" + System.lineSeparator();
+        String lastLine = "+-+-+-+ +" + System.lineSeparator();
+        String expected = line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + lastLine;
         System.out.println(test);
         assertEquals(expected, test);
     }
