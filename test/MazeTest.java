@@ -8,22 +8,25 @@ import static org.junit.Assert.*;
 public class MazeTest {
 
     @Test
-    public void findAllNeighbors() {
+    public void findAllNeighborsTest() {
         Maze testMaze = new Maze(3, 3);
         MazeCell[] testGraph = testMaze.getMaze();
-        ArrayList<MazeCell> neighborsTest = testMaze.findAllNeighbors(testGraph[0]);
-        MazeCell[] neighbors = new MazeCell[neighborsTest.size()];
+        MazeCell testCell = testGraph[0];
+        System.out.println("Cell to find neighbors for: (" + testCell.getLocationX() + "," + testCell.getLocationY() + ")");
+        ArrayList<MazeCell> neighborsTest = testMaze.findAllNeighbors(testCell);
+        // Convert from ArrayList<MazeCell> to MazeCell[] for assert test
+        MazeCell[] neighborsActual = new MazeCell[neighborsTest.size()];
         for(int i = 0; i < neighborsTest.size(); i++){
-            System.out.println(neighborsTest.get(i).getLocationX());
-            System.out.println(neighborsTest.get(i).getLocationY());
-            neighbors[i] = neighborsTest.get(i);
+            System.out.print("Neighbor " + i + ": ");
+            System.out.println("(" + neighborsTest.get(i).getLocationX() + "," + neighborsTest.get(i).getLocationY() + ")");
+            neighborsActual[i] = neighborsTest.get(i);
         }
         MazeCell[] expected = {new MazeCell(0, 1, 1), new MazeCell(1, 0, 3)};
-        assertArrayEquals(expected, neighbors);
+        assertArrayEquals(expected, neighborsActual);
     }
 
     @Test
-    public void generateMaze() {
+    public void generateMazeTest() {
         Random r = new Random();
         r.setSeed(20);
         Maze testMaze = new Maze(4,4);
@@ -32,7 +35,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testToString() {
+    public void testToStringTest() {
         Maze testMaze = new Maze(4, 4);
         testMaze.addEdge(3, 2);
         testMaze.addEdge(2, 1);

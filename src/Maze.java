@@ -44,7 +44,7 @@ public class Maze {
      * @param direction the direction north or south using enum
      * @return MazeCell to the north or to the south of the specified cell
      */
-    private MazeCell xChange(MazeCell cell, MazeCellNeighbor direction) {
+    private MazeCell findXNeighbor(MazeCell cell, MazeCellNeighbor direction) {
         int cellLocationX = cell.getLocationX();
         int cellLocationY = cell.getLocationY();
         int newCellLocationX;
@@ -67,7 +67,7 @@ public class Maze {
      * @param direction the direction left or right using enum
      * @return MazeCell to the left or to the right of the specified cell
      */
-    private MazeCell yChange(MazeCell cell, MazeCellNeighbor direction) {
+    private MazeCell findYNeighbor(MazeCell cell, MazeCellNeighbor direction) {
         int cellLocationX = cell.getLocationX();
         int cellLocationY = cell.getLocationY();
         int newCellLocationY;
@@ -93,22 +93,22 @@ public class Maze {
         // Eligible neighbors are north, south, left, and right
         ArrayList<MazeCell> neighbors = new ArrayList<MazeCell>();
         // Find left neighbor if there is a left neighbor
-        MazeCell leftNeighbor = this.yChange(cell, MazeCellNeighbor.LEFT);
+        MazeCell leftNeighbor = this.findYNeighbor(cell, MazeCellNeighbor.LEFT);
         if(leftNeighbor != null) {
             neighbors.add(leftNeighbor);
         }
         // Find right neighbor if there is a right neighbor
-        MazeCell rightNeighbor = this.yChange(cell, MazeCellNeighbor.RIGHT);
+        MazeCell rightNeighbor = this.findYNeighbor(cell, MazeCellNeighbor.RIGHT);
         if(rightNeighbor != null) {
             neighbors.add(rightNeighbor);
         }
         // Find north neighbor if there is one
-        MazeCell northNeighbor = this.xChange(cell, MazeCellNeighbor.NORTH);
+        MazeCell northNeighbor = this.findXNeighbor(cell, MazeCellNeighbor.NORTH);
         if(northNeighbor != null) {
             neighbors.add(northNeighbor);
         }
         // Find south neighbor if there is one
-        MazeCell southNeighbor = this.xChange(cell, MazeCellNeighbor.SOUTH);
+        MazeCell southNeighbor = this.findXNeighbor(cell, MazeCellNeighbor.SOUTH);
         if(southNeighbor != null) {
             neighbors.add(southNeighbor);
         }
@@ -184,7 +184,7 @@ public class Maze {
         // the space below the stopping location is empty
         for(int x = 0; x < numberOfStringRows; x++) {
             for(int y = 0; y < numberOfStringColumns; y++) {
-                // fill in walls and corners where needed and
+                // fill in walls and corners to fully isolate cells
                 // spaces where the vertices are located
                 if(x % 2 == 0) {
                     if(y % 2 == 0){
@@ -249,13 +249,13 @@ public class Maze {
         String[][] mazePrint = mazePrintData.getMazePrint();
         // Take a row from 2d array and copy it into a single String line
         // and adding a new line when we reach the end of the row
-        String fullMazeInLine = "";
+        StringBuilder fullMazeInLine = new StringBuilder();
         for(int x = 0; x < numberOfStringRows; x++){
             for(int y = 0; y < numberOfStringColumns; y++) {
-                fullMazeInLine = fullMazeInLine + mazePrint[x][y];
+                fullMazeInLine.append(mazePrint[x][y]);
             }
-            fullMazeInLine = fullMazeInLine + System.lineSeparator();
+            fullMazeInLine.append(System.lineSeparator());
         }
-        return fullMazeInLine;
+        return fullMazeInLine.toString();
     }
 }
