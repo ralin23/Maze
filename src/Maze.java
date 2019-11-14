@@ -10,7 +10,7 @@ public class Maze {
     |6|7|8|
     +-+-+ +
     */
-    private MazeCell[] maze;
+    private MazeCell[] maze;            // Maze in an array of MazeCell. Each MazeCell has its own LinkedList for traversing to its neighbors
     private int[][] adjacencyList;      // Adjacency matrix
     private int row;
     private int column;
