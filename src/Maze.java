@@ -239,7 +239,7 @@ public class Maze {
     }
 
     /**
-     * Maps out the maze with all applicable walls
+     * Prints out the maze using data from mazeToString
      * @return a String containing maze data
      */
     public String toString() {
