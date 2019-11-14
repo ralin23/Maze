@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +24,11 @@ public class MazeTest {
 
     @Test
     public void generateMaze() {
+        Random r = new Random();
+        r.setSeed(20);
+        Maze testMaze = new Maze(4,4);
+        testMaze.generateMaze(r);
+        System.out.println(testMaze);
     }
 
     @Test

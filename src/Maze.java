@@ -129,10 +129,11 @@ public class Maze {
         adjacencyList[nodeB][nodeA] = 1;
     }
 
-    // not yet tested
-    public void generateMaze() {
-        Random r = new Random();
-        r.setSeed(20);
+    /**
+     * Creates a perfect maze (only one way through the maze) with provided seed
+     * @param r random seed to work with
+     */
+    public void generateMaze(Random r) {
         Stack<MazeCell> cellStack = new Stack<>();
         int totalCells = row * column;
         MazeCell currentCell = maze[0];
@@ -170,7 +171,13 @@ public class Maze {
         return maze;
     }
 
-    public String[][] mazeStringBuild(int numberOfStringRows, int numberOfStringColumns) {
+    /**
+     * Builds the basic maze with all applicable walls in a String[][] format while passing number of rows and number of columns
+     * @return MazeToString object containing a String[][], number of rows, and number of columns
+     */
+    public MazeToString mazeStringBuild() {
+        int numberOfStringRows = (2* this.row) + 1;
+        int numberOfStringColumns = (2 * this.column) + 1;
         String[][] mazePrint = new String[numberOfStringRows][numberOfStringColumns];
         // Just prints out the basic skeleton of this maze
         // where the space above starting location is empty and
@@ -210,7 +217,6 @@ public class Maze {
             }
         }
         // Walls that should not exist will be removed one by one
-        // NOT YET IMPLEMENTED
         int currentNodeID = 0;
         for(int x = 1; x < numberOfStringRows; x += 2) {
             for(int y = 1; y < numberOfStringColumns; y += 2) {
@@ -229,7 +235,7 @@ public class Maze {
                 currentNodeID++;
             }
         }
-        return mazePrint;
+        return new MazeToString(numberOfStringRows, numberOfStringColumns, mazePrint);
     }
 
     /**
@@ -237,9 +243,10 @@ public class Maze {
      * @return a String containing maze data
      */
     public String toString() {
-        int numberOfStringRows = (2* this.row) + 1;
-        int numberOfStringColumns = (2 * this.column) + 1;
-        String[][] mazePrint = mazeStringBuild(numberOfStringRows, numberOfStringColumns);
+        MazeToString mazePrintData = mazeStringBuild();
+        int numberOfStringRows = mazePrintData.getNumberOfStringRows();
+        int numberOfStringColumns = mazePrintData.getNumberOfStringColumns();
+        String[][] mazePrint = mazePrintData.getMazePrint();
         // Take a row from 2d array and copy it into a single String line
         // and adding a new line when we reach the end of the row
         String fullMazeInLine = "";
