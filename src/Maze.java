@@ -17,7 +17,8 @@ public class Maze {
 
     /**
      * Creates a maze with certain amount of rows and columns
-     * @param row number of rows (x)
+     *
+     * @param row    number of rows (x)
      * @param column number of columns (y)
      */
     Maze(int row, int column) {
@@ -26,21 +27,33 @@ public class Maze {
         this.adjacencyList = new int[MAX_VERTEX_COUNT][MAX_VERTEX_COUNT];
         this.row = row;
         this.column = column;
-        for(int i = 0; i < MAX_VERTEX_COUNT; i++) {
-            for(int j = 0; j < MAX_VERTEX_COUNT; j++) {
+        for (int i = 0; i < MAX_VERTEX_COUNT; i++) {
+            for (int j = 0; j < MAX_VERTEX_COUNT; j++) {
                 this.adjacencyList[i][j] = 0;   // Fill adjacency matrix with 0 (no edges)
             }
         }
-        for (int x = 0; x < row; x++){
-            for (int y = 0; y < column; y++){
-                maze[(x * row) + y] = new MazeCell(x, y,(x * row) + y);
+        for (int x = 0; x < row; x++) {
+            for (int y = 0; y < column; y++) {
+                maze[calculateCellNodeID(x, y)] = new MazeCell(x, y, calculateCellNodeID(x, y));
             }
         }
     }
 
     /**
+     * Calculates the nodeID for a MazeCell using x & y as a basis
+     *
+     * @param cellLocationX location on the x axis (row)
+     * @param cellLocationY location on the y axis (column)
+     * @return a number that is used to the MazeCell's final location in the MazeCell array
+     */
+    public int calculateCellNodeID(int cellLocationX, int cellLocationY) {
+        return ((cellLocationX * this.column) + cellLocationY);
+    }
+
+    /**
      * Find the north or south neighbors of a specified cell
-     * @param cell to find either the north or south neighbors
+     *
+     * @param cell      to find either the north or south neighbors
      * @param direction the direction north or south using enum
      * @return MazeCell to the north or to the south of the specified cell
      */
@@ -48,22 +61,22 @@ public class Maze {
         int cellLocationX = cell.getLocationX();
         int cellLocationY = cell.getLocationY();
         int newCellLocationX;
-        if(direction == MazeCellNeighbor.NORTH) {
+        if (direction == MazeCellNeighbor.NORTH) {
             newCellLocationX = cellLocationX - 1;
-        }
-        else {
+        } else {
             newCellLocationX = cellLocationX + 1;
         }
         MazeCell newMazeCell = null;
-        if(newCellLocationX >= 0 && newCellLocationX < this.row){
-            newMazeCell = maze[(newCellLocationX * this.row) + cellLocationY];
+        if (newCellLocationX >= 0 && newCellLocationX < this.row) {
+            newMazeCell = maze[calculateCellNodeID(newCellLocationX, cellLocationY)];
         }
         return newMazeCell;
     }
 
     /**
      * Find the left or right neighbors of a specified cell
-     * @param cell to find either the left or right neighbors
+     *
+     * @param cell      to find either the left or right neighbors
      * @param direction the direction left or right using enum
      * @return MazeCell to the left or to the right of the specified cell
      */
@@ -73,43 +86,43 @@ public class Maze {
         int newCellLocationY;
         if (direction == MazeCellNeighbor.LEFT) {
             newCellLocationY = cellLocationY - 1;
-        }
-        else {
+        } else {
             newCellLocationY = cellLocationY + 1;
         }
         MazeCell newMazeCell = null;
-        if(newCellLocationY >= 0 && newCellLocationY < this.column) {
-            newMazeCell = this.maze[(cellLocationX * this.row) + newCellLocationY];
+        if (newCellLocationY >= 0 && newCellLocationY < this.column) {
+            newMazeCell = this.maze[calculateCellNodeID(cellLocationX, newCellLocationY)];
         }
         return newMazeCell;
     }
 
     /**
      * Get all neighbors of the specified cell
+     *
      * @param cell the cell to find the neighbors of
      * @return an ArrayList of MazeCell that are neighbors of the cell
      */
-    public ArrayList<MazeCell> findAllNeighbors(MazeCell cell){
+    public ArrayList<MazeCell> findAllNeighbors(MazeCell cell) {
         // Eligible neighbors are north, south, left, and right
         ArrayList<MazeCell> neighbors = new ArrayList<MazeCell>();
         // Find left neighbor if there is a left neighbor
         MazeCell leftNeighbor = this.findYNeighbor(cell, MazeCellNeighbor.LEFT);
-        if(leftNeighbor != null) {
+        if (leftNeighbor != null) {
             neighbors.add(leftNeighbor);
         }
         // Find right neighbor if there is a right neighbor
         MazeCell rightNeighbor = this.findYNeighbor(cell, MazeCellNeighbor.RIGHT);
-        if(rightNeighbor != null) {
+        if (rightNeighbor != null) {
             neighbors.add(rightNeighbor);
         }
         // Find north neighbor if there is one
         MazeCell northNeighbor = this.findXNeighbor(cell, MazeCellNeighbor.NORTH);
-        if(northNeighbor != null) {
+        if (northNeighbor != null) {
             neighbors.add(northNeighbor);
         }
         // Find south neighbor if there is one
         MazeCell southNeighbor = this.findXNeighbor(cell, MazeCellNeighbor.SOUTH);
-        if(southNeighbor != null) {
+        if (southNeighbor != null) {
             neighbors.add(southNeighbor);
         }
         return neighbors;
@@ -117,6 +130,7 @@ public class Maze {
 
     /**
      * Adds an bidirectional edge between two nodes (vertices)
+     *
      * @param nodeA first node (vertex) to connect
      * @param nodeB second node (vertex) to connect
      */
@@ -131,6 +145,7 @@ public class Maze {
 
     /**
      * Creates a perfect maze (only one way through the maze) with provided seed
+     *
      * @param r random seed to work with
      */
     public void generateMaze(Random r) {
@@ -139,25 +154,24 @@ public class Maze {
         MazeCell currentCell = maze[0];
         int visitedCells = 1;
         // While not all cells were visited
-        while(visitedCells < totalCells) {
+        while (visitedCells < totalCells) {
             ArrayList<MazeCell> possibleNeighbors = findAllNeighbors(currentCell);
             // Remove all neighboring cells that is connected to another cell
             ArrayList<MazeCell> neighborsToRemove = new ArrayList<>();
-            for(MazeCell cell: possibleNeighbors) {
-                if(!cell.getAccessibleCells().isEmpty()) {
+            for (MazeCell cell : possibleNeighbors) {
+                if (!cell.getAccessibleCells().isEmpty()) {
                     neighborsToRemove.add(cell);
                 }
             }
             possibleNeighbors.removeAll(neighborsToRemove);
-            if(possibleNeighbors.size() > 0) {
+            if (possibleNeighbors.size() > 0) {
                 MazeCell randomCell = possibleNeighbors.get(r.nextInt(possibleNeighbors.size()));
                 // Knocking down wall
                 addEdge(currentCell.getNodeID(), randomCell.getNodeID());
                 cellStack.push(currentCell);
                 currentCell = randomCell;
                 visitedCells++;
-            }
-            else{
+            } else {
                 currentCell = cellStack.pop();
             }
         }
@@ -165,6 +179,7 @@ public class Maze {
 
     /**
      * Used to get the maze (Used by test case)
+     *
      * @return the maze
      */
     public MazeCell[] getMaze() {
@@ -173,44 +188,43 @@ public class Maze {
 
     /**
      * Builds the basic maze with all applicable walls in a String[][] format while passing number of rows and number of columns
+     *
      * @return MazeToString object containing a String[][], number of rows, and number of columns
      */
     public MazeToString mazeStringBuild() {
-        int numberOfStringRows = (2* this.row) + 1;
+        int numberOfStringRows = (2 * this.row) + 1;
         int numberOfStringColumns = (2 * this.column) + 1;
         String[][] mazePrint = new String[numberOfStringRows][numberOfStringColumns];
         // Just prints out the basic skeleton of this maze
         // where the space above starting location is empty and
         // the space below the stopping location is empty
-        for(int x = 0; x < numberOfStringRows; x++) {
-            for(int y = 0; y < numberOfStringColumns; y++) {
+        for (int x = 0; x < numberOfStringRows; x++) {
+            for (int y = 0; y < numberOfStringColumns; y++) {
                 // fill in walls and corners to fully isolate cells
                 // spaces where the vertices are located
-                if(x % 2 == 0) {
-                    if(y % 2 == 0){
+                if (x % 2 == 0) {
+                    if (y % 2 == 0) {
                         mazePrint[x][y] = "+";
-                    }
-                    else {
+                    } else {
                         mazePrint[x][y] = "-";
                     }
                 }
-                if(x % 2 == 1) {
-                    if(y % 2 == 0){
+                if (x % 2 == 1) {
+                    if (y % 2 == 0) {
                         mazePrint[x][y] = "|";
-                    }
-                    else {
+                    } else {
                         mazePrint[x][y] = " ";
                     }
                 }
                 // starting point exception
-                if(x == 0) {
-                    if(y == 1) {
+                if (x == 0) {
+                    if (y == 1) {
                         mazePrint[x][y] = " ";
                     }
                 }
                 // ending point exception
-                else if(x == numberOfStringRows - 1) {
-                    if(y == numberOfStringColumns - 2) {
+                else if (x == numberOfStringRows - 1) {
+                    if (y == numberOfStringColumns - 2) {
                         mazePrint[x][y] = " ";
                     }
                 }
@@ -218,8 +232,8 @@ public class Maze {
         }
         // Walls that should not exist will be removed one by one
         int currentNodeID = 0;
-        for(int x = 1; x < numberOfStringRows; x += 2) {
-            for(int y = 1; y < numberOfStringColumns; y += 2) {
+        for (int x = 1; x < numberOfStringRows; x += 2) {
+            for (int y = 1; y < numberOfStringColumns; y += 2) {
                 LinkedList<MazeCell> neighbors = maze[currentNodeID].getAccessibleCells();
                 for (MazeCell neighbor : neighbors) {
                     int neighborNodeID = neighbor.getNodeID();
@@ -240,6 +254,7 @@ public class Maze {
 
     /**
      * Prints out the maze using data from mazeToString
+     *
      * @return a String containing maze data
      */
     public String toString() {
@@ -250,8 +265,8 @@ public class Maze {
         // Take a row from 2d array and copy it into a single String line
         // and adding a new line when we reach the end of the row
         StringBuilder fullMazeInLine = new StringBuilder();
-        for(int x = 0; x < numberOfStringRows; x++){
-            for(int y = 0; y < numberOfStringColumns; y++) {
+        for (int x = 0; x < numberOfStringRows; x++) {
+            for (int y = 0; y < numberOfStringColumns; y++) {
                 fullMazeInLine.append(mazePrint[x][y]);
             }
             fullMazeInLine.append(System.lineSeparator());

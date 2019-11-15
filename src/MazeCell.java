@@ -17,11 +17,11 @@ public class MazeCell {
         accessibleCells = new LinkedList<>();
     }
 
-    public int getLocationX(){
+    public int getLocationX() {
         return cellLocationX;
     }
 
-    public int getLocationY(){
+    public int getLocationY() {
         return cellLocationY;
     }
 
@@ -29,16 +29,16 @@ public class MazeCell {
         return nodeID;
     }
 
-    public LinkedList<MazeCell> getAccessibleCells(){
+    public LinkedList<MazeCell> getAccessibleCells() {
         return accessibleCells;
     }
 
-    public void addAccessibleCells(MazeCell neighbor){
+    public void addAccessibleCells(MazeCell neighbor) {
         accessibleCells.add(neighbor);
     }
 
-    public boolean equals(Object o){
-        MazeCell b = (MazeCell)o;
+    public boolean equals(Object o) {
+        MazeCell b = (MazeCell) o;
         return ((this.cellLocationY == b.getLocationY()) && (this.cellLocationX == b.getLocationX()) && (this.nodeID == b.nodeID));
     }
 }
