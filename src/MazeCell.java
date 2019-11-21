@@ -1,20 +1,22 @@
 import java.util.LinkedList;
+import java.awt.Color;
 
 public class MazeCell {
+    public enum Colors{
+        WHITE,GRAY,BLACK;
+    }
     private int cellLocationX;
     private int cellLocationY;
     private int nodeID;
     private LinkedList<MazeCell> accessibleCells;
-//    private MazeCell northCell;
-//    private MazeCell southCell;
-//    private MazeCell eastCell;
-//    private MazeCell westCell;
+    public Color color = Color.WHITE;
 
     MazeCell(int cellLocationX, int cellLocationY, int nodeID) {
         this.cellLocationX = cellLocationX;
         this.cellLocationY = cellLocationY;
         this.nodeID = nodeID;
         accessibleCells = new LinkedList<>();
+
     }
 
     public int getLocationX() {
