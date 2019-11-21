@@ -194,30 +194,29 @@ public class Maze {
         Stack<MazeCell> stack = new Stack<>();
         List<MazeCell> visited = new ArrayList<>();
         stack.push(vertices[0]);
-        //int pos = 0;
+
         while(!stack.isEmpty()) {
             MazeCell temp = stack.pop();
             if(temp == vertices[vertices.length - 1])
             {
                 break;
             }
-            if (temp.color == Color.WHITE) {
-                temp.color = Color.GRAY;
-                //temp.time = pos;
+            if (temp.getColor() == Color.WHITE) {
+                temp.setColor(Color.GRAY);
                 visited.add(temp);
-                //pos++;
                 for(MazeCell mc : temp.getAccessibleCells()) {
-                    if (mc.color == Color.WHITE) {
-                        mc.color = Color.GRAY;
+                    if (mc.getColor() == Color.WHITE) {
+                        mc.setColor(Color.GRAY);
+                        mc.setParent(temp);
                         stack.push(mc);
                     }
                 }
-                temp.color = Color.BLACK;
+                temp.setColor(Color.BLACK);
             }
         }
         for(MazeCell cell : visited)
         {
-            System.out.println(cell.getNodeID());
+
         }
     }
 
@@ -225,8 +224,8 @@ public class Maze {
     {
         MazeCell[] vertices = maze.getMaze();
         Queue<MazeCell> queue = new LinkedList<MazeCell>();
+        List<MazeCell> visited = new ArrayList<>();
         queue.add(vertices[0]);
-        //int pos = 0;
         while(!queue.isEmpty())
         {
             MazeCell temp = queue.remove();
@@ -234,20 +233,17 @@ public class Maze {
             {
                 break;
             }
-            if(temp.color == Color.WHITE)
+            temp.setColor(Color.GRAY);
+            visited.add(temp);
+            for(MazeCell mc : temp.getAccessibleCells())
             {
-                //temp.time = pos;
-                //pos ++;
-                for(MazeCell mc : temp.getAccessibleCells())
-                {
-                    if(mc.color == Color.WHITE)
-                    {
-                        mc.color = Color.GRAY;
-                        queue.add(mc);
-                    }
+                if (mc.getColor() == Color.WHITE) {
+                    mc.setColor(Color.GRAY);
+                    mc.setParent(temp);
+                    queue.add(mc);
                 }
-                temp.color = Color.BLACK;
             }
+            temp.setColor(Color.BLACK);
         }
     }
     /**

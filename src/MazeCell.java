@@ -7,7 +7,8 @@ public class MazeCell {
     private int cellLocationY;
     private int nodeID;
     private LinkedList<MazeCell> accessibleCells;
-    public Color color = Color.WHITE;
+    private Color color;
+    private MazeCell parent;
     private String visitNumber;
 
     MazeCell(int cellLocationX, int cellLocationY, int nodeID) {
@@ -15,9 +16,24 @@ public class MazeCell {
         this.cellLocationY = cellLocationY;
         this.nodeID = nodeID;
         accessibleCells = new LinkedList<>();
+        color = Color.WHITE;
         visitNumber = " ";
+        parent = null;
     }
 
+    public Color getColor(){
+        return color;
+    }
+    public void setColor(Color col){
+        color = col;
+    }
+
+    public MazeCell getParent(){
+        return parent;
+    }
+    public void setParent(MazeCell par){
+        parent = par;
+    }
     public String getVisitNumber() {
         return visitNumber;
     }
