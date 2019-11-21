@@ -4,19 +4,17 @@ import java.awt.Color;
 /**
  * This class will completely generate a maze from scratch then solve it
  */
-public class MazeGenerator{
+public class MazeGeneratorSolver {
 
     private Maze maze;
 
-    public MazeGenerator(int r, int c)
-    {
-        maze = new Maze(r,c);
+    public MazeGeneratorSolver(int row, int column, Random r) {
+        maze = new Maze(row, column);
+        maze.generateMaze(r);
     }
 
-    public void solveMaze()
-    {
-
-
+    public void solveMaze() {
+        maze.BFS(maze);
     }
 
     public void DFS(Maze maze)
@@ -80,5 +78,9 @@ public class MazeGenerator{
                 temp.color = Color.BLACK;
             }
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 }
