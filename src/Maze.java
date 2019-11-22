@@ -194,6 +194,7 @@ public class Maze {
      * Solve the maze using Depth-First Search.
      *
      * @param maze the maze to solve
+     * @return an object containing Strings ready to be printed
      */
     public SolvedMazeData DFS(Maze maze) {
         clearValues();
@@ -219,13 +220,14 @@ public class Maze {
             temp.setColor(Color.BLACK);
 
         }
-        return writeFile(visited);
+        return prepDataForFileWrite(visited);
     }
 
     /**
      * Solve the maze using Breath-First Search
      *
      * @param maze the maze to solve
+     * @return an object containing Strings ready to be printed
      */
     public SolvedMazeData BFS(Maze maze) {
         clearValues();
@@ -250,7 +252,7 @@ public class Maze {
             }
             temp.setColor(Color.BLACK);
         }
-        return writeFile(visited);
+        return prepDataForFileWrite(visited);
     }
 
     /**
@@ -266,8 +268,9 @@ public class Maze {
     /**
      * Prepares the solver's data to be written into a file
      * @param visited a list of MazeCells visited by either DFS or BFS
+     * @return an object containing Strings ready to be printed
      */
-    public SolvedMazeData writeFile(List<MazeCell> visited) {
+    public SolvedMazeData prepDataForFileWrite(List<MazeCell> visited) {
         for (int i = 0; i < visited.size(); i++) {
             visited.get(i).setVisitNumber(Integer.toString(i));
         }
@@ -278,18 +281,18 @@ public class Maze {
             current = current.getParent();
         }
         path.add(visited.get(0));
-        String pathCoord = "";
+        String pathCord = "";
         for (int i = path.size() - 1; i >= 0; i--) {
             MazeCell temp = path.get(i);
-            pathCoord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
+            pathCord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
         }
-        System.out.println(this);
+        //System.out.println(this);
         String maze = this.toString();
-        System.out.println("Path: " + pathCoord);
-        String pathData = "Path: " + pathCoord;
-        System.out.println("Length of path: " + path.size());
+        //System.out.println("Path: " + pathCord);
+        String pathData = "Path: " + pathCord;
+        //System.out.println("Length of path: " + path.size());
         String pathLength = "Length of path: " + path.size();
-        System.out.println("Visited cells: " + visited.size());
+        //System.out.println("Visited cells: " + visited.size());
         String visitedCellsCount = "Visited cells: " + visited.size();
         return new SolvedMazeData(maze, pathData, pathLength, visitedCellsCount);
     }

@@ -1,18 +1,34 @@
 import java.util.*;
-import java.awt.Color;
 
 /**
- * This class will completely generate a maze from scratch then solve it
+ * This class will completely generate a maze from scratch then solve it or will accept o prebuilt maze to solve
  */
 public class MazeGeneratorSolver {
 
     private Maze maze;
 
+    /**
+     * Creates a new random maze to solve
+     * @param row the number of rows
+     * @param column the number of columns
+     * @param r a random seed
+     */
     public MazeGeneratorSolver(int row, int column, Random r) {
         maze = new Maze(row, column);
         maze.generateMaze(r);
     }
 
+    /**
+     * Creates MazeGeneratorSolver using prebuilt maze
+     * @param maze the maze that needs to be solved
+     */
+    public MazeGeneratorSolver(Maze maze) {
+        this.maze = maze;
+    }
+
+    /**
+     * Solves the maze using BFS and DFS and prints out the result
+     */
     public void solveMaze() {
         SolvedMazeData solvedBFS = maze.BFS(maze);
         SolvedMazeData solvedDFS = maze.DFS(maze);
