@@ -73,24 +73,25 @@ public class MazeFileReader {
     }
 
     public static void main(String[] args) {
+        String path = "sampleInputs/";
         MazeFileReader readMazeFile = new MazeFileReader();
-        MazeGeneratorSolver maze4 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File("maze4.txt")));
+        MazeGeneratorSolver maze4 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze4.txt")));
         System.out.println("Maze 4:");
         maze4.solveMaze("data/maze4solve.txt");
         System.out.println();
-        MazeGeneratorSolver maze6 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File("maze6.txt")));
+        MazeGeneratorSolver maze6 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze6.txt")));
         System.out.println("Maze 6:");
         maze6.solveMaze("data/maze6solve.txt");
         System.out.println();
-        MazeGeneratorSolver maze8 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File("maze8.txt")));
+        MazeGeneratorSolver maze8 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze8.txt")));
         System.out.println("Maze 8:");
         maze8.solveMaze("data/maze8solve.txt");
         System.out.println();
-        MazeGeneratorSolver maze10 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File("maze10.txt")));
+        MazeGeneratorSolver maze10 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze10.txt")));
         System.out.println("Maze 10:");
         maze10.solveMaze("data/maze10solve.txt");
         System.out.println();
-        MazeGeneratorSolver maze20 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File("maze20.txt")));
+        MazeGeneratorSolver maze20 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze20.txt")));
         System.out.println("Maze 20:");
         maze20.solveMaze("data/maze20solve.txt");
         System.out.println();
