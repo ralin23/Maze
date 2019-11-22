@@ -195,7 +195,7 @@ public class Maze {
      *
      * @param maze the maze to solve
      */
-    public void DFS(Maze maze) {
+    public SolvedMazeData DFS(Maze maze) {
         clearValues();
         MazeCell[] vertices = maze.getMaze();
         Stack<MazeCell> stack = new Stack<>();
@@ -219,8 +219,7 @@ public class Maze {
             temp.setColor(Color.BLACK);
 
         }
-        writeFile(visited);
-
+        return writeFile(visited);
     }
 
     /**
@@ -228,7 +227,7 @@ public class Maze {
      *
      * @param maze the maze to solve
      */
-    public void BFS(Maze maze) {
+    public SolvedMazeData BFS(Maze maze) {
         clearValues();
         MazeCell[] vertices = maze.getMaze();
         Queue<MazeCell> queue = new LinkedList<MazeCell>();
@@ -251,10 +250,12 @@ public class Maze {
             }
             temp.setColor(Color.BLACK);
         }
-        writeFile(visited);
-
+        return writeFile(visited);
     }
 
+    /**
+     * Reset the variables that BFS and DFS uses in Maze and MazeCell to their defaults
+     */
     public void clearValues() {
         for (int i = 0; i < maze.length; i++) {
             maze[i].reset();
@@ -262,7 +263,11 @@ public class Maze {
         path.clear();
     }
 
-    public void writeFile(List<MazeCell> visited) {
+    /**
+     * Prepares the solver's data to be written into a file
+     * @param visited a list of MazeCells visited by either DFS or BFS
+     */
+    public SolvedMazeData writeFile(List<MazeCell> visited) {
         for (int i = 0; i < visited.size(); i++) {
             visited.get(i).setVisitNumber(Integer.toString(i));
         }
@@ -279,9 +284,14 @@ public class Maze {
             pathCoord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
         }
         System.out.println(this);
+        String maze = this.toString();
         System.out.println("Path: " + pathCoord);
+        String pathData = "Path: " + pathCoord;
         System.out.println("Length of path: " + path.size());
+        String pathLength = "Length of path: " + path.size();
         System.out.println("Visited cells: " + visited.size());
+        String visitedCellsCount = "Visited cells: " + visited.size();
+        return new SolvedMazeData(maze, pathData, pathLength, visitedCellsCount);
     }
 
     /**
