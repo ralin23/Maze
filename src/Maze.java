@@ -214,10 +214,11 @@ public class Maze {
                 temp.setColor(Color.BLACK);
             }
         }
-        for(MazeCell cell : visited)
+        for(int i = 0; i < visited.size(); i ++)
         {
-
+            visited.get(i).setVisitNumber(Integer.toString(i));
         }
+
     }
 
     public void BFS(Maze maze)
@@ -245,7 +246,30 @@ public class Maze {
             }
             temp.setColor(Color.BLACK);
         }
+        //Assign numbered order to visited nodes
+        for(int i = 0; i < visited.size(); i ++)
+        {
+            visited.get(i).setVisitNumber(Integer.toString(i));
+        }
+        //Find path to exit and print coordinates
+        Stack<MazeCell> path = new Stack<>();
+        MazeCell current = visited.get(visited.size()-1);
+        while(current != visited.get(0))
+        {
+            path.add(current);
+            current = current.getParent();
+        }
+
+        String pathCoord = "";
+        for(int i = 0; i < path.size(); i ++)
+        {
+            MazeCell temp = path.get(i);
+            pathCoord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
+        }
+        System.out.println(pathCoord);
+
     }
+
     /**
      * Builds the basic maze with all applicable walls in a String[][] format while passing number of rows and number of columns
      *
