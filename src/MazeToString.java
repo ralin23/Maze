@@ -9,9 +9,10 @@ public class MazeToString {
 
     /**
      * Creates an object which contains various data for the maze
-     * @param numberOfStringRows number of rows
+     *
+     * @param numberOfStringRows    number of rows
      * @param numberOfStringColumns number of columns
-     * @param mazePrint 2D String holding the format of the maze
+     * @param mazePrint             2D String holding the format of the maze
      */
     MazeToString(int numberOfStringRows, int numberOfStringColumns, String[][] mazePrint) {
         this.numberOfStringRows = numberOfStringRows;
@@ -21,6 +22,7 @@ public class MazeToString {
 
     /**
      * Gets the number of columns for this maze in a 2D String format
+     *
      * @return number of columns in the 2D String maze
      */
     public int getNumberOfStringColumns() {
@@ -29,6 +31,7 @@ public class MazeToString {
 
     /**
      * Gets the number of rows for this maze in a 2D String format
+     *
      * @return the number of rows in the 2D String maze
      */
     public int getNumberOfStringRows() {
@@ -37,6 +40,7 @@ public class MazeToString {
 
     /**
      * Gets the maze in a 2D String format
+     *
      * @return the number of rows in the 2D String maze
      */
     public String[][] getMazePrint() {

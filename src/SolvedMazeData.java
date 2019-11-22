@@ -9,12 +9,13 @@ public class SolvedMazeData {
 
     /**
      * Creates a class to hold the ready to be printed solved maze data
-     * @param maze the maze in one continuous String
-     * @param pathData the path through the maze in String format
-     * @param pathLength the length of the path in String format
+     *
+     * @param maze              the maze in one continuous String
+     * @param pathData          the path through the maze in String format
+     * @param pathLength        the length of the path in String format
      * @param visitedCellsCount number of visited cells in String format
      */
-    SolvedMazeData(String maze, String pathData, String pathLength, String visitedCellsCount){
+    SolvedMazeData(String maze, String pathData, String pathLength, String visitedCellsCount) {
         this.maze = maze;
         this.pathData = pathData;
         this.pathLength = pathLength;
@@ -23,6 +24,7 @@ public class SolvedMazeData {
 
     /**
      * Gets the maze as a String
+     *
      * @return the maze as a String
      */
     public String getMaze() {
@@ -31,6 +33,7 @@ public class SolvedMazeData {
 
     /**
      * Gets the path data as a String
+     *
      * @return the path data as a String
      */
     public String getPathData() {
@@ -39,6 +42,7 @@ public class SolvedMazeData {
 
     /**
      * Gets the path's length as a String
+     *
      * @return the path's length as a String
      */
     public String getPathLength() {
@@ -47,6 +51,7 @@ public class SolvedMazeData {
 
     /**
      * Gets the number of cells visited as a String
+     *
      * @return the number of cells visited as a String
      */
     public String getVisitedCellsCount() {

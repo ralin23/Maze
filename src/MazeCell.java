@@ -16,9 +16,10 @@ public class MazeCell {
 
     /**
      * Creates a cell for the maze with the required data
+     *
      * @param cellLocationX location of cell on x axis (row)
      * @param cellLocationY location of cell on y axis (column)
-     * @param nodeID unique number that corresponds to x and y
+     * @param nodeID        unique number that corresponds to x and y
      */
     MazeCell(int cellLocationX, int cellLocationY, int nodeID) {
         this.cellLocationX = cellLocationX;
@@ -32,43 +33,48 @@ public class MazeCell {
 
     /**
      * Gets the color of the cell
+     *
      * @return the color of the cell
      */
-    public Color getColor(){
+    public Color getColor() {
         return color;
     }
 
     /**
      * Sets the color of the cell
+     *
      * @param col new color to set
      */
-    public void setColor(Color col){
+    public void setColor(Color col) {
         color = col;
     }
 
     /**
      * Gets the cell's parent
+     *
      * @return the cell's parent
      */
-    public MazeCell getParent(){
+    public MazeCell getParent() {
         return parent;
     }
 
     /**
      * Sets the cell's parent
+     *
      * @param par the cell's parent to set
      */
-    public void setParent(MazeCell par){
+    public void setParent(MazeCell par) {
         parent = par;
     }
 
     /**
      * Gets the visit number of the cell
      * If the cell's visit number is greater than 9, we only transmit the last digit of the number
+     *
      * @return the cell's visit number with the above restriction
      */
     public String getVisitNumber() {
-        if(visitNumber.length() >= 1) {
+        if (visitNumber.length() >= 1) {
             visitNumber = visitNumber.substring(visitNumber.length() - 1);
         }
         return visitNumber;
@@ -76,6 +82,7 @@ public class MazeCell {
 
     /**
      * Sets the celll's visit number
+     *
      * @param x the cell's visit number to set
      */
     public void setVisitNumber(String x) {
@@ -85,8 +92,7 @@ public class MazeCell {
     /**
      * Resets the cell's data to its default
      */
-    public void reset()
-    {
+    public void reset() {
         visitNumber = " ";
         parent = null;
         color = Color.WHITE;
@@ -94,6 +100,7 @@ public class MazeCell {
 
     /**
      * Gets the cells x value on the x-axis
+     *
      * @return the cell's x value on the x-axis
      */
     public int getLocationX() {
@@ -102,6 +109,7 @@ public class MazeCell {
 
     /**
      * Gets the cells y value on the y-axis
+     *
      * @return the cell's y-value on the y-axis
      */
     public int getLocationY() {
@@ -110,6 +118,7 @@ public class MazeCell {
 
     /**
      * Gets the cell's nodeID number
+     *
      * @return the cell's nodeID number
      */
     public int getNodeID() {
@@ -118,6 +127,7 @@ public class MazeCell {
 
     /**
      * Gets the list of MazeCells accessible from this cell
+     *
      * @return the list of MazeCells accessible from this cell
      */
     public LinkedList<MazeCell> getAccessibleCells() {
@@ -126,6 +136,7 @@ public class MazeCell {
 
     /**
      * Adds a MazeCell to make it accessible from this cell
+     *
      * @param neighbor the MazeCell to add to the list of accessible cells
      */
     public void addAccessibleCells(MazeCell neighbor) {
@@ -134,6 +145,7 @@ public class MazeCell {
 
     /**
      * Checks if two MazeCells are the same
+     *
      * @param o the MazeCell to check against
      * @return true if the two cells are the same, false if not
      */

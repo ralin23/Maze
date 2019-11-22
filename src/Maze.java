@@ -267,6 +267,7 @@ public class Maze {
 
     /**
      * Prepares the solver's data to be written into a file
+     *
      * @param visited a list of MazeCells visited by either DFS or BFS
      * @return an object containing Strings ready to be printed
      */

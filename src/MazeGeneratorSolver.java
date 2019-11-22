@@ -9,9 +9,10 @@ public class MazeGeneratorSolver {
 
     /**
      * Creates a new random maze to solve
-     * @param row the number of rows
+     *
+     * @param row    the number of rows
      * @param column the number of columns
-     * @param r a random seed
+     * @param r      a random seed
      */
     public MazeGeneratorSolver(int row, int column, Random r) {
         maze = new Maze(row, column);
@@ -20,6 +21,7 @@ public class MazeGeneratorSolver {
 
     /**
      * Creates MazeGeneratorSolver using prebuilt maze
+     *
      * @param maze the maze that needs to be solved
      */
     public MazeGeneratorSolver(Maze maze) {
@@ -48,7 +50,7 @@ public class MazeGeneratorSolver {
     public static void main(String[] args) {
         Random r = new Random();
         r.setSeed(100);
-        MazeGeneratorSolver randomMaze = new MazeGeneratorSolver(4,4, r);
+        MazeGeneratorSolver randomMaze = new MazeGeneratorSolver(4, 4, r);
         randomMaze.solveMaze();
     }
 }
