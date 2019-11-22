@@ -13,7 +13,7 @@ public class Maze {
     +-+-+ +
     */
     private MazeCell[] maze;            // Maze in an array of MazeCell. Each MazeCell has its own LinkedList for traversing to its neighbors
-    private int[][] adjacencyList;      // Adjacency matrix
+    //private int[][] adjacencyList;      // Adjacency matrix
     private int row;
     private int column;
 
@@ -26,12 +26,12 @@ public class Maze {
     Maze(int row, int column) {
         final int MAX_VERTEX_COUNT = row * column;
         this.maze = new MazeCell[MAX_VERTEX_COUNT];
-        this.adjacencyList = new int[MAX_VERTEX_COUNT][MAX_VERTEX_COUNT];
+        //this.adjacencyList = new int[MAX_VERTEX_COUNT][MAX_VERTEX_COUNT];
         this.row = row;
         this.column = column;
         for (int i = 0; i < MAX_VERTEX_COUNT; i++) {
             for (int j = 0; j < MAX_VERTEX_COUNT; j++) {
-                this.adjacencyList[i][j] = 0;   // Fill adjacency matrix with 0 (no edges)
+                //this.adjacencyList[i][j] = 0;   // Fill adjacency matrix with 0 (no edges)
             }
         }
         for (int x = 0; x < row; x++) {
@@ -141,8 +141,8 @@ public class Maze {
         MazeCell vertexB = maze[nodeB];
         vertexA.addAccessibleCells(vertexB);
         vertexB.addAccessibleCells(vertexA);
-        adjacencyList[nodeA][nodeB] = 1;
-        adjacencyList[nodeB][nodeA] = 1;
+        //adjacencyList[nodeA][nodeB] = 1;
+        //adjacencyList[nodeB][nodeA] = 1;
     }
 
     /**
@@ -188,6 +188,10 @@ public class Maze {
         return maze;
     }
 
+    /**
+     * Solve the maze using Depth-First Search.
+     * @param maze the maze to solve
+     */
     public void DFS(Maze maze)
     {
         MazeCell[] vertices = maze.getMaze();
@@ -221,6 +225,10 @@ public class Maze {
 
     }
 
+    /**
+     * Solve the maze using Breath-First Search
+     * @param maze the maze to solve
+     */
     public void BFS(Maze maze)
     {
         MazeCell[] vertices = maze.getMaze();
@@ -314,10 +322,11 @@ public class Maze {
                 }
             }
         }
-        // Walls that should not exist will be removed one by one
+        // Walls that should not exist will be removed one by one & add visit numbers
         int currentNodeID = 0;
         for (int x = 1; x < numberOfStringRows; x += 2) {
             for (int y = 1; y < numberOfStringColumns; y += 2) {
+                mazePrint[x][y] = maze[currentNodeID].getVisitNumber();
                 LinkedList<MazeCell> neighbors = maze[currentNodeID].getAccessibleCells();
                 for (MazeCell neighbor : neighbors) {
                     int neighborNodeID = neighbor.getNodeID();

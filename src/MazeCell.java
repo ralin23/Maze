@@ -35,6 +35,9 @@ public class MazeCell {
         parent = par;
     }
     public String getVisitNumber() {
+        if(visitNumber.length() >= 1) {
+            visitNumber = visitNumber.substring(visitNumber.length() - 1);
+        }
         return visitNumber;
     }
 
