@@ -28,11 +28,13 @@ public class MazeTest {
     @Test
     public void generateMazeTest() {
         Random r = new Random();
-        r.setSeed(20);
+        r.setSeed(40);
         Maze testMaze = new Maze(4,4);
         testMaze.generateMaze(r);
         testMaze.BFS(testMaze);
-        System.out.println(testMaze);
+        //System.out.println(testMaze);
+        testMaze.DFS(testMaze);
+        //System.out.println(testMaze);
     }
 
     @Test

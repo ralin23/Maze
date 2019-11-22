@@ -16,6 +16,7 @@ public class Maze {
     //private int[][] adjacencyList;      // Adjacency matrix
     private int row;
     private int column;
+    private List<MazeCell> path;
 
     /**
      * Creates a maze with certain amount of rows and columns
@@ -29,6 +30,7 @@ public class Maze {
         //this.adjacencyList = new int[MAX_VERTEX_COUNT][MAX_VERTEX_COUNT];
         this.row = row;
         this.column = column;
+        path = new ArrayList<>();
         for (int i = 0; i < MAX_VERTEX_COUNT; i++) {
             for (int j = 0; j < MAX_VERTEX_COUNT; j++) {
                 //this.adjacencyList[i][j] = 0;   // Fill adjacency matrix with 0 (no edges)
@@ -194,34 +196,31 @@ public class Maze {
      */
     public void DFS(Maze maze)
     {
+        clearValues();
         MazeCell[] vertices = maze.getMaze();
         Stack<MazeCell> stack = new Stack<>();
         List<MazeCell> visited = new ArrayList<>();
         stack.push(vertices[0]);
-
         while(!stack.isEmpty()) {
             MazeCell temp = stack.pop();
+            temp.setColor(Color.GRAY);
+            visited.add(temp);
             if(temp == vertices[vertices.length - 1])
             {
                 break;
             }
-            if (temp.getColor() == Color.WHITE) {
-                temp.setColor(Color.GRAY);
-                visited.add(temp);
-                for(MazeCell mc : temp.getAccessibleCells()) {
-                    if (mc.getColor() == Color.WHITE) {
-                        mc.setColor(Color.GRAY);
-                        mc.setParent(temp);
-                        stack.push(mc);
-                    }
+
+            for(MazeCell mc : temp.getAccessibleCells()) {
+                if (mc.getColor() == Color.WHITE) {
+                    mc.setColor(Color.GRAY);
+                    mc.setParent(temp);
+                    stack.push(mc);
                 }
-                temp.setColor(Color.BLACK);
             }
+            temp.setColor(Color.BLACK);
+
         }
-        for(int i = 0; i < visited.size(); i ++)
-        {
-            visited.get(i).setVisitNumber(Integer.toString(i));
-        }
+        writeFile(visited);
 
     }
 
@@ -231,6 +230,7 @@ public class Maze {
      */
     public void BFS(Maze maze)
     {
+        clearValues();
         MazeCell[] vertices = maze.getMaze();
         Queue<MazeCell> queue = new LinkedList<MazeCell>();
         List<MazeCell> visited = new ArrayList<>();
@@ -255,37 +255,49 @@ public class Maze {
             }
             temp.setColor(Color.BLACK);
         }
-        //Assign numbered order to visited nodes
+        writeFile(visited);
+
+    }
+
+    public void clearValues()
+    {
+        for(int i = 0; i < maze.length; i ++)
+        {
+            maze[i].reset();
+        }
+        path.clear();
+    }
+    public void writeFile(List<MazeCell> visited)
+    {
         for(int i = 0; i < visited.size(); i ++)
         {
             visited.get(i).setVisitNumber(Integer.toString(i));
         }
         //Find path to exit and print coordinates
-        List<MazeCell> path = new ArrayList<>();
         MazeCell current = visited.get(visited.size()-1);
         while(current != visited.get(0))
         {
             path.add(current);
             current = current.getParent();
         }
-
+        path.add(visited.get(0));
         String pathCoord = "";
         for(int i = path.size()-1; i >= 0; i --)
         {
             MazeCell temp = path.get(i);
             pathCoord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
         }
-        System.out.println(pathCoord);
-        System.out.println(path.size());
-
+        System.out.println(this);
+        System.out.println("Path: " + pathCoord);
+        System.out.println("Length of path: " + path.size());
+        System.out.println("Visited cells: " + visited.size());
     }
-
     /**
      * Builds the basic maze with all applicable walls in a String[][] format while passing number of rows and number of columns
      *
      * @return MazeToString object containing a String[][], number of rows, and number of columns
      */
-    public MazeToString mazeStringBuild() {
+    public MazeToString mazeStringBuild(boolean findShortestPath) {
         int numberOfStringRows = (2 * this.row) + 1;
         int numberOfStringColumns = (2 * this.column) + 1;
         String[][] mazePrint = new String[numberOfStringRows][numberOfStringColumns];
@@ -328,7 +340,16 @@ public class Maze {
         int currentNodeID = 0;
         for (int x = 1; x < numberOfStringRows; x += 2) {
             for (int y = 1; y < numberOfStringColumns; y += 2) {
-                mazePrint[x][y] = maze[currentNodeID].getVisitNumber();
+                if(path.contains(maze[currentNodeID]) && findShortestPath)
+                {
+                    mazePrint[x][y] = "#";
+                }
+                else if(!findShortestPath){
+                    mazePrint[x][y] = maze[currentNodeID].getVisitNumber();
+                }
+                else{
+                    mazePrint[x][y] = " ";
+                }
                 LinkedList<MazeCell> neighbors = maze[currentNodeID].getAccessibleCells();
                 for (MazeCell neighbor : neighbors) {
                     int neighborNodeID = neighbor.getNodeID();
@@ -353,13 +374,22 @@ public class Maze {
      * @return a String containing maze data
      */
     public String toString() {
-        MazeToString mazePrintData = mazeStringBuild();
+        MazeToString mazePrintData = mazeStringBuild(false);
+        MazeToString mazePrintShortestPath = mazeStringBuild(true);
         int numberOfStringRows = mazePrintData.getNumberOfStringRows();
         int numberOfStringColumns = mazePrintData.getNumberOfStringColumns();
         String[][] mazePrint = mazePrintData.getMazePrint();
         // Take a row from 2d array and copy it into a single String line
         // and adding a new line when we reach the end of the row
         StringBuilder fullMazeInLine = new StringBuilder();
+        for (int x = 0; x < numberOfStringRows; x++) {
+            for (int y = 0; y < numberOfStringColumns; y++) {
+                fullMazeInLine.append(mazePrint[x][y]);
+            }
+            fullMazeInLine.append(System.lineSeparator());
+        }
+        mazePrint = mazePrintShortestPath.getMazePrint();
+        fullMazeInLine.append(System.lineSeparator());
         for (int x = 0; x < numberOfStringRows; x++) {
             for (int y = 0; y < numberOfStringColumns; y++) {
                 fullMazeInLine.append(mazePrint[x][y]);

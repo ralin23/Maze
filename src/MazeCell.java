@@ -45,6 +45,13 @@ public class MazeCell {
         visitNumber = x;
     }
 
+    public void reset()
+    {
+        visitNumber = " ";
+        parent = null;
+        color = Color.WHITE;
+    }
+
     public int getLocationX() {
         return cellLocationX;
     }
