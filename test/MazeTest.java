@@ -56,8 +56,19 @@ public class MazeTest {
         String line6 = "| | | | |" + System.lineSeparator();
         String line7 = "+-+ +-+-+" + System.lineSeparator();
         String line8 = "| | | |5|" + System.lineSeparator();
-        String lastLine = "+-+-+-+ +" + System.lineSeparator();
-        String expected = line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + lastLine;
+        String line9 = "+-+-+-+ +" + System.lineSeparator();
+        String expected = line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + line9;
+        // Hash component is not tested because this maze cannot be solved
+        line1 = "+ +-+-+-+" + System.lineSeparator();
+        line2 = "| |     |" + System.lineSeparator();
+        line3 = "+-+-+-+-+" + System.lineSeparator();
+        line4 = "| | | | |" + System.lineSeparator();
+        line5 = "+-+-+-+-+" + System.lineSeparator();
+        line6 = "| | | | |" + System.lineSeparator();
+        line7 = "+-+ +-+-+" + System.lineSeparator();
+        line8 = "| | | | |" + System.lineSeparator();
+        line9 = "+-+-+-+ +" + System.lineSeparator();
+        expected = expected + System.lineSeparator() + line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + line9;
         System.out.println(test);
         assertEquals(expected, test);
     }

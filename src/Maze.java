@@ -192,25 +192,24 @@ public class Maze {
 
     /**
      * Solve the maze using Depth-First Search.
+     *
      * @param maze the maze to solve
      */
-    public void DFS(Maze maze)
-    {
+    public void DFS(Maze maze) {
         clearValues();
         MazeCell[] vertices = maze.getMaze();
         Stack<MazeCell> stack = new Stack<>();
         List<MazeCell> visited = new ArrayList<>();
         stack.push(vertices[0]);
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             MazeCell temp = stack.pop();
             temp.setColor(Color.GRAY);
             visited.add(temp);
-            if(temp == vertices[vertices.length - 1])
-            {
+            if (temp == vertices[vertices.length - 1]) {
                 break;
             }
 
-            for(MazeCell mc : temp.getAccessibleCells()) {
+            for (MazeCell mc : temp.getAccessibleCells()) {
                 if (mc.getColor() == Color.WHITE) {
                     mc.setColor(Color.GRAY);
                     mc.setParent(temp);
@@ -226,27 +225,24 @@ public class Maze {
 
     /**
      * Solve the maze using Breath-First Search
+     *
      * @param maze the maze to solve
      */
-    public void BFS(Maze maze)
-    {
+    public void BFS(Maze maze) {
         clearValues();
         MazeCell[] vertices = maze.getMaze();
         Queue<MazeCell> queue = new LinkedList<MazeCell>();
         List<MazeCell> visited = new ArrayList<>();
         queue.add(vertices[0]);
-        while(!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
             MazeCell temp = queue.remove();
             temp.setColor(Color.GRAY);
             visited.add(temp);
-            if(temp == vertices[vertices.length-1])
-            {
+            if (temp == vertices[vertices.length - 1]) {
                 break;
             }
 
-            for(MazeCell mc : temp.getAccessibleCells())
-            {
+            for (MazeCell mc : temp.getAccessibleCells()) {
                 if (mc.getColor() == Color.WHITE) {
                     mc.setColor(Color.GRAY);
                     mc.setParent(temp);
@@ -259,31 +255,26 @@ public class Maze {
 
     }
 
-    public void clearValues()
-    {
-        for(int i = 0; i < maze.length; i ++)
-        {
+    public void clearValues() {
+        for (int i = 0; i < maze.length; i++) {
             maze[i].reset();
         }
         path.clear();
     }
-    public void writeFile(List<MazeCell> visited)
-    {
-        for(int i = 0; i < visited.size(); i ++)
-        {
+
+    public void writeFile(List<MazeCell> visited) {
+        for (int i = 0; i < visited.size(); i++) {
             visited.get(i).setVisitNumber(Integer.toString(i));
         }
         //Find path to exit and print coordinates
-        MazeCell current = visited.get(visited.size()-1);
-        while(current != visited.get(0))
-        {
+        MazeCell current = visited.get(visited.size() - 1);
+        while (current != visited.get(0)) {
             path.add(current);
             current = current.getParent();
         }
         path.add(visited.get(0));
         String pathCoord = "";
-        for(int i = path.size()-1; i >= 0; i --)
-        {
+        for (int i = path.size() - 1; i >= 0; i--) {
             MazeCell temp = path.get(i);
             pathCoord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
         }
@@ -292,9 +283,11 @@ public class Maze {
         System.out.println("Length of path: " + path.size());
         System.out.println("Visited cells: " + visited.size());
     }
+
     /**
      * Builds the basic maze with all applicable walls in a String[][] format while passing number of rows and number of columns
      *
+     * @param findShortestPath mode that determines how the cells data will be outputted. Pass "true" to mark shortest path with '#', otherwise pass false to see how either DFS or BFS moved throughout the maze
      * @return MazeToString object containing a String[][], number of rows, and number of columns
      */
     public MazeToString mazeStringBuild(boolean findShortestPath) {
@@ -336,20 +329,12 @@ public class Maze {
                 }
             }
         }
-        // Walls that should not exist will be removed one by one & add visit numbers
+        // Walls that should not exist will be removed one by one.
+        // The cell space will show visited number if findShortestPath is false,
+        // otherwise mark the shortest path with '#'.
         int currentNodeID = 0;
         for (int x = 1; x < numberOfStringRows; x += 2) {
             for (int y = 1; y < numberOfStringColumns; y += 2) {
-                if(path.contains(maze[currentNodeID]) && findShortestPath)
-                {
-                    mazePrint[x][y] = "#";
-                }
-                else if(!findShortestPath){
-                    mazePrint[x][y] = maze[currentNodeID].getVisitNumber();
-                }
-                else{
-                    mazePrint[x][y] = " ";
-                }
                 LinkedList<MazeCell> neighbors = maze[currentNodeID].getAccessibleCells();
                 for (MazeCell neighbor : neighbors) {
                     int neighborNodeID = neighbor.getNodeID();
@@ -361,6 +346,23 @@ public class Maze {
                     else if (currentNodeID + this.column == neighborNodeID) {
                         mazePrint[x + 1][y] = " ";
                     }
+                }
+                if (path.contains(maze[currentNodeID]) && findShortestPath) {
+                    mazePrint[x][y] = "#";
+                    if (y + 1 != numberOfStringColumns - 1) {
+                        if (path.contains(maze[currentNodeID + 1]) && maze[currentNodeID].getAccessibleCells().contains(maze[currentNodeID + 1])) {
+                            mazePrint[x][y + 1] = "#";
+                        }
+                    }
+                    if (x + 1 != numberOfStringRows - 1) {
+                        if (path.contains(maze[currentNodeID + column]) && maze[currentNodeID].getAccessibleCells().contains(maze[currentNodeID + this.row])) {
+                            mazePrint[x + 1][y] = "#";
+                        }
+                    }
+                } else if (!findShortestPath) {
+                    mazePrint[x][y] = maze[currentNodeID].getVisitNumber();
+                } else {
+                    mazePrint[x][y] = " ";
                 }
                 currentNodeID++;
             }
