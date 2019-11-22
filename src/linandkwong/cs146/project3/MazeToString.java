@@ -1,3 +1,5 @@
+package linandkwong.cs146.project3;
+
 /**
  * This class contains the maze as a 2D string and other important variables
  */

@@ -1,3 +1,5 @@
+package linandkwong.cs146.project3;
+
 import java.awt.Color;
 import java.util.*;
 
@@ -12,7 +14,6 @@ public class Maze {
     +-+-+ +
     */
     private MazeCell[] maze;            // Maze in an array of MazeCell. Each MazeCell has its own LinkedList for traversing to its neighbors
-    //private int[][] adjacencyList;      // Adjacency matrix
     private int row;
     private int column;
     private List<MazeCell> path;

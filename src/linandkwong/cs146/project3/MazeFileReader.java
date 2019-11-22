@@ -1,3 +1,5 @@
+package linandkwong.cs146.project3;
+
 import java.io.*;
 
 public class MazeFileReader {

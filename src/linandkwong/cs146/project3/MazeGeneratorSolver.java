@@ -1,3 +1,5 @@
+package linandkwong.cs146.project3;
+
 import java.util.*;
 import java.io.*;
 

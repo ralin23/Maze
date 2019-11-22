@@ -1,3 +1,5 @@
+package linandkwong.cs146.project3;
+
 /**
  * This class holds the solved maze data which is ready to be printed.
  */

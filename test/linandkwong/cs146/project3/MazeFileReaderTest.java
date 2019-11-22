@@ -1,3 +1,5 @@
+package linandkwong.cs146.project3;
+
 import org.junit.Test;
 
 import java.io.File;
