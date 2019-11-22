@@ -11,7 +11,7 @@ public class MazeFileReaderTest {
     @Test
     public void mazeFileReader() {
         MazeFileReader readFile = new MazeFileReader();
-        Maze actualMaze = readFile.mazeFileReader(new File("maze4.txt"));
+        Maze actualMaze = readFile.mazeFileReader(new File("sampleInputs/maze4.txt"));
         Maze expectedMaze = new Maze(4,4);
         // Manually adding edges using data from maze4.txt
         expectedMaze.addEdge(0,1);
