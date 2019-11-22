@@ -38,11 +38,18 @@ public class MazeGeneratorSolver {
         SolvedMazeData solvedBFS = maze.BFS(maze);
         SolvedMazeData solvedDFS = maze.DFS(maze);
 
-//        System.out.println("BFS: ");
-//        System.out.println(solvedBFS.getMaze());
-//        System.out.println(solvedBFS.getPathData());
-//        System.out.println(solvedBFS.getPathLength());
-//        System.out.println(solvedBFS.getVisitedCellsCount());
+        System.out.println("BFS: ");
+        System.out.print(solvedBFS.getMaze());
+        System.out.print(solvedBFS.getPathData());
+        System.out.print(solvedBFS.getPathLength());
+        System.out.print(solvedBFS.getVisitedCellsCount());
+        System.out.println();
+        System.out.println("DFS: ");
+        System.out.print(solvedDFS.getMaze());
+        System.out.print(solvedDFS.getPathData());
+        System.out.print(solvedDFS.getPathLength());
+        System.out.print(solvedDFS.getVisitedCellsCount());
+
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)));
             bw.write("BFS: \n");
@@ -59,15 +66,6 @@ public class MazeGeneratorSolver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        System.out.println();
-//        System.out.println("DFS: ");
-//        System.out.println(solvedDFS.getMaze());
-//        System.out.println(solvedDFS.getPathData());
-//        System.out.println(solvedDFS.getPathLength());
-//        System.out.println(solvedDFS.getVisitedCellsCount());
-
-
     }
 
     public static void main(String[] args) {
