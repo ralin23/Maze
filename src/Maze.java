@@ -1,6 +1,5 @@
-import java.awt.*;
+import java.awt.Color;
 import java.util.*;
-import java.util.List;
 
 public class Maze {
     /* Maze Representation 3x3 Ex:
@@ -218,7 +217,6 @@ public class Maze {
                 }
             }
             temp.setColor(Color.BLACK);
-
         }
         return prepDataForFileWrite(visited);
     }
@@ -275,7 +273,7 @@ public class Maze {
         for (int i = 0; i < visited.size(); i++) {
             visited.get(i).setVisitNumber(Integer.toString(i));
         }
-        //Find path to exit and print coordinates
+        //Find path to exit and get coordinates
         MazeCell current = visited.get(visited.size() - 1);
         while (current != visited.get(0)) {
             path.add(current);

@@ -28,7 +28,7 @@ public class SolvedMazeData {
      * @return the maze as a String
      */
     public String getMaze() {
-        return maze;
+        return maze + "\n";
     }
 
     /**
@@ -37,7 +37,7 @@ public class SolvedMazeData {
      * @return the path data as a String
      */
     public String getPathData() {
-        return pathData;
+        return pathData + "\n";
     }
 
     /**
@@ -46,7 +46,7 @@ public class SolvedMazeData {
      * @return the path's length as a String
      */
     public String getPathLength() {
-        return pathLength;
+        return pathLength + "\n";
     }
 
     /**
@@ -55,6 +55,6 @@ public class SolvedMazeData {
      * @return the number of cells visited as a String
      */
     public String getVisitedCellsCount() {
-        return visitedCellsCount;
+        return visitedCellsCount + "\n";
     }
 }
