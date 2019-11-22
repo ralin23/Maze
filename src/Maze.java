@@ -238,12 +238,13 @@ public class Maze {
         while(!queue.isEmpty())
         {
             MazeCell temp = queue.remove();
+            temp.setColor(Color.GRAY);
+            visited.add(temp);
             if(temp == vertices[vertices.length-1])
             {
                 break;
             }
-            temp.setColor(Color.GRAY);
-            visited.add(temp);
+
             for(MazeCell mc : temp.getAccessibleCells())
             {
                 if (mc.getColor() == Color.WHITE) {
@@ -260,7 +261,7 @@ public class Maze {
             visited.get(i).setVisitNumber(Integer.toString(i));
         }
         //Find path to exit and print coordinates
-        Stack<MazeCell> path = new Stack<>();
+        List<MazeCell> path = new ArrayList<>();
         MazeCell current = visited.get(visited.size()-1);
         while(current != visited.get(0))
         {
@@ -269,12 +270,13 @@ public class Maze {
         }
 
         String pathCoord = "";
-        for(int i = 0; i < path.size(); i ++)
+        for(int i = path.size()-1; i >= 0; i --)
         {
             MazeCell temp = path.get(i);
             pathCoord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
         }
         System.out.println(pathCoord);
+        System.out.println(path.size());
 
     }
 

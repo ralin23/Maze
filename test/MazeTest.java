@@ -31,6 +31,7 @@ public class MazeTest {
         r.setSeed(20);
         Maze testMaze = new Maze(4,4);
         testMaze.generateMaze(r);
+        testMaze.BFS(testMaze);
         System.out.println(testMaze);
     }
 
