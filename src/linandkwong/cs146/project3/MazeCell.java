@@ -70,8 +70,9 @@ public class MazeCell {
     }
 
     /**
-     * Gets the visit number of the cell
-     * If the cell's visit number is greater than 9, we only transmit the last digit of the number
+     * Gets the visit number of the cell.
+     * If the cell's visit number is greater than 9, we only return the last digit of the number.
+     * If the cell is not visited by the solver, return ' '.
      *
      * @return the cell's visit number with the above restriction
      */

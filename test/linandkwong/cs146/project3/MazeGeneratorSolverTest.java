@@ -12,11 +12,11 @@ public class MazeGeneratorSolverTest {
     @Test
     public void solveMaze() {
         MazeFileReader readMaze = new MazeFileReader();
-        MazeGeneratorSolver testMaze = new MazeGeneratorSolver(readMaze.mazeFileReader(new File("sampleInputs/customTestMaze.txt")));
-        String fileName = "data/testMazeKey.txt";
-        testMaze.solveMaze(fileName);
-        assertTrue(new File(fileName).exists());
         try {
+            MazeGeneratorSolver testMaze = new MazeGeneratorSolver(readMaze.mazeFileReader(new File("sampleInputs/customTestMaze.txt")));
+            String fileName = "data/testMazeKey.txt";
+            testMaze.solveMaze(fileName);
+            assertTrue(new File(fileName).exists());
             BufferedReader br1 = new BufferedReader(new FileReader(fileName));
             BufferedReader br2 = new BufferedReader(new FileReader("customTestMazeKey/testMazeKey.txt"));
             String line1 = br1.readLine();
@@ -27,9 +27,13 @@ public class MazeGeneratorSolverTest {
                 line2 = br2.readLine();
             }
         } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
+            fail();
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
+            fail();
         }
     }
 }

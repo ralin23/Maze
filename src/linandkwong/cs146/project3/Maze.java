@@ -27,15 +27,9 @@ public class Maze {
     Maze(int row, int column) {
         final int MAX_VERTEX_COUNT = row * column;
         this.maze = new MazeCell[MAX_VERTEX_COUNT];
-        //this.adjacencyList = new int[MAX_VERTEX_COUNT][MAX_VERTEX_COUNT];
         this.row = row;
         this.column = column;
-        path = new ArrayList<>();
-        for (int i = 0; i < MAX_VERTEX_COUNT; i++) {
-            for (int j = 0; j < MAX_VERTEX_COUNT; j++) {
-                //this.adjacencyList[i][j] = 0;   // Fill adjacency matrix with 0 (no edges)
-            }
-        }
+        this.path = new ArrayList<>();
         for (int x = 0; x < row; x++) {
             for (int y = 0; y < column; y++) {
                 maze[calculateCellNodeID(x, y)] = new MazeCell(x, y, calculateCellNodeID(x, y));
@@ -143,8 +137,6 @@ public class Maze {
         MazeCell vertexB = maze[nodeB];
         vertexA.addAccessibleCells(vertexB);
         vertexB.addAccessibleCells(vertexA);
-        //adjacencyList[nodeA][nodeB] = 1;
-        //adjacencyList[nodeB][nodeA] = 1;
     }
 
     /**
@@ -170,7 +162,7 @@ public class Maze {
             possibleNeighbors.removeAll(neighborsToRemove);
             if (possibleNeighbors.size() > 0) {
                 MazeCell randomCell = possibleNeighbors.get(r.nextInt(possibleNeighbors.size()));
-                // Knocking down wall
+                // Knocking down wall with randomly selected neighbor
                 addEdge(currentCell.getNodeID(), randomCell.getNodeID());
                 cellStack.push(currentCell);
                 currentCell = randomCell;
@@ -182,7 +174,7 @@ public class Maze {
     }
 
     /**
-     * Used to get the maze (Used by test case)
+     * Used to get the maze (Used by test cases)
      *
      * @return the maze
      */
@@ -281,18 +273,15 @@ public class Maze {
             current = current.getParent();
         }
         path.add(visited.get(0));
-        String pathCord = "";
+        // Convert path data to a string of maze cell coordinates
+        StringBuilder pathCord = new StringBuilder();
         for (int i = path.size() - 1; i >= 0; i--) {
             MazeCell temp = path.get(i);
-            pathCord += "(" + temp.getLocationX() + "," + temp.getLocationY() + ") ";
+            pathCord.append("(").append(temp.getLocationX()).append(",").append(temp.getLocationY()).append(") ");
         }
-        //System.out.println(this);
         String maze = this.toString();
-        //System.out.println("Path: " + pathCord);
         String pathData = "Path: " + pathCord;
-        //System.out.println("Length of path: " + path.size());
         String pathLength = "Length of path: " + path.size();
-        //System.out.println("Visited cells: " + visited.size());
         String visitedCellsCount = "Visited cells: " + visited.size();
         return new SolvedMazeData(maze, pathData, pathLength, visitedCellsCount);
     }
@@ -349,6 +338,7 @@ public class Maze {
         for (int x = 1; x < numberOfStringRows; x += 2) {
             for (int y = 1; y < numberOfStringColumns; y += 2) {
                 LinkedList<MazeCell> neighbors = maze[currentNodeID].getAccessibleCells();
+                // Now going to remove the walls that should not exist
                 for (MazeCell neighbor : neighbors) {
                     int neighborNodeID = neighbor.getNodeID();
                     // Neighbor to the right
@@ -360,21 +350,28 @@ public class Maze {
                         mazePrint[x + 1][y] = " ";
                     }
                 }
+                // Time to print either '#' or visit number
                 if (path.contains(maze[currentNodeID]) && findShortestPath) {
+                    // If we want to find the shortest path and this maze cell is on the path print '#'
                     mazePrint[x][y] = "#";
                     if (y + 1 != numberOfStringColumns - 1) {
+                        // If maze cell to the right of the current maze cell is on the path, print a '#' immediately right of this cell
                         if (path.contains(maze[currentNodeID + 1]) && maze[currentNodeID].getAccessibleCells().contains(maze[currentNodeID + 1])) {
                             mazePrint[x][y + 1] = "#";
                         }
                     }
                     if (x + 1 != numberOfStringRows - 1) {
+                        // If maze cell south of the current maze cell is on the path, print a '#' immediately south of the cell
                         if (path.contains(maze[currentNodeID + column]) && maze[currentNodeID].getAccessibleCells().contains(maze[currentNodeID + this.row])) {
                             mazePrint[x + 1][y] = "#";
                         }
                     }
                 } else if (!findShortestPath) {
+                    // If we are not finding the shortest path, print the visit number
                     mazePrint[x][y] = maze[currentNodeID].getVisitNumber();
                 } else {
+                    // The catch all for all other situations
+                    // Ex. trying to find the shortest path, current maze cell is not on path, and current
                     mazePrint[x][y] = " ";
                 }
                 currentNodeID++;
@@ -391,6 +388,7 @@ public class Maze {
     public String toString() {
         MazeToString mazePrintData = mazeStringBuild(false);
         MazeToString mazePrintShortestPath = mazeStringBuild(true);
+        // Parse the maze data that is not find the shortest path
         int numberOfStringRows = mazePrintData.getNumberOfStringRows();
         int numberOfStringColumns = mazePrintData.getNumberOfStringColumns();
         String[][] mazePrint = mazePrintData.getMazePrint();
@@ -403,8 +401,11 @@ public class Maze {
             }
             fullMazeInLine.append(System.lineSeparator());
         }
-        mazePrint = mazePrintShortestPath.getMazePrint();
+        // Parse the maze data that is find the shortest path
         fullMazeInLine.append(System.lineSeparator());
+        mazePrint = mazePrintShortestPath.getMazePrint();
+        // Take a row from 2d array and copy it into a single String line
+        // and adding a new line when we reach the end of the row
         for (int x = 0; x < numberOfStringRows; x++) {
             for (int y = 0; y < numberOfStringColumns; y++) {
                 fullMazeInLine.append(mazePrint[x][y]);

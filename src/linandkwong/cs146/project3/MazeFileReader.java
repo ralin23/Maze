@@ -9,13 +9,14 @@ public class MazeFileReader {
      *
      * @param file to read a properly formatted maze from.
      * @return a maze with all the proper walls removed.
+     * @throws FileNotFoundException thrown when a file could not be found
+     * @throws IOException           thrown when an error in file reading occurs
      */
-    public Maze mazeFileReader(File file) {
+    public Maze mazeFileReader(File file) throws FileNotFoundException, IOException {
         BufferedReader br;
         String[][] mazeRead = new String[0][0];
         int row = 0;
         int column = 0;
-        boolean tryCatchCompleted = false;
         try {
             br = new BufferedReader(new FileReader(file));
             // Now reading the first line which should contain number of rows and number of columns in that order
@@ -41,19 +42,10 @@ public class MazeFileReader {
                 line = br.readLine();
             }
             br.close();
-            tryCatchCompleted = true;
         } catch (FileNotFoundException e) {
-            System.out.println("The file does not exist at expected location: ");
-            System.out.println(file.getAbsolutePath());
-            e.printStackTrace();
+            throw new FileNotFoundException("The file does not exist at expected location: " + System.lineSeparator() + file.getAbsolutePath());
         } catch (IOException e) {
-            System.out.println("Something went wrong while trying to read the following file: ");
-            System.out.println(file.getAbsolutePath());
-            System.out.println("Please try again.");
-            e.printStackTrace();
-        }
-        if (!tryCatchCompleted) {
-            return null;
+            throw new IOException("Something went wrong while trying to read the following file: " + System.lineSeparator() + file.getAbsolutePath() + System.lineSeparator() + "Please try again.");
         }
         Maze maze = new Maze(row, column);
         int cellNodeID = 0;
@@ -75,25 +67,33 @@ public class MazeFileReader {
     public static void main(String[] args) {
         String path = "sampleInputs/";
         MazeFileReader readMazeFile = new MazeFileReader();
-        MazeGeneratorSolver maze4 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze4.txt")));
-        System.out.println("Maze 4:");
-        maze4.solveMaze("data/maze4solve.txt");
-        System.out.println();
-        MazeGeneratorSolver maze6 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze6.txt")));
-        System.out.println("Maze 6:");
-        maze6.solveMaze("data/maze6solve.txt");
-        System.out.println();
-        MazeGeneratorSolver maze8 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze8.txt")));
-        System.out.println("Maze 8:");
-        maze8.solveMaze("data/maze8solve.txt");
-        System.out.println();
-        MazeGeneratorSolver maze10 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze10.txt")));
-        System.out.println("Maze 10:");
-        maze10.solveMaze("data/maze10solve.txt");
-        System.out.println();
-        MazeGeneratorSolver maze20 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze20.txt")));
-        System.out.println("Maze 20:");
-        maze20.solveMaze("data/maze20solve.txt");
-        System.out.println();
+        try {
+            MazeGeneratorSolver maze4 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze4.txt")));
+            System.out.println("Maze 4:");
+            maze4.solveMaze("data/maze4solve.txt");
+            System.out.println();
+            MazeGeneratorSolver maze6 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze6.txt")));
+            System.out.println("Maze 6:");
+            maze6.solveMaze("data/maze6solve.txt");
+            System.out.println();
+            MazeGeneratorSolver maze8 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze8.txt")));
+            System.out.println("Maze 8:");
+            maze8.solveMaze("data/maze8solve.txt");
+            System.out.println();
+            MazeGeneratorSolver maze10 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze10.txt")));
+            System.out.println("Maze 10:");
+            maze10.solveMaze("data/maze10solve.txt");
+            System.out.println();
+            MazeGeneratorSolver maze20 = new MazeGeneratorSolver(readMazeFile.mazeFileReader(new File(path + "maze20.txt")));
+            System.out.println("Maze 20:");
+            maze20.solveMaze("data/maze20solve.txt");
+            System.out.println();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
