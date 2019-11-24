@@ -51,10 +51,12 @@ public class MazeFileReader {
         int cellNodeID = 0;
         for (int i = 1; i < mazeRead.length; i += 2) {
             for (int j = 1; j < mazeRead[i].length; j += 2) {
+                // If space to the right of current cell is a space, add an edge in the maze
                 if (mazeRead[i][j + 1].equals(" ")) {
                     maze.addEdge(cellNodeID, cellNodeID + 1);
                 }
-                // exclude last node from this line (ending point of the maze)
+                // If the space south of current cell is a space, add an edge in the maze
+                // Exclude last node from this line (ending point of the maze)
                 if (mazeRead[i + 1][j].equals(" ") && !(i == mazeRead.length - 2 && j == mazeRead[i].length - 2)) {
                     maze.addEdge(cellNodeID, cellNodeID + column);
                 }
