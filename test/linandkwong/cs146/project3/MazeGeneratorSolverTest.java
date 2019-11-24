@@ -14,7 +14,7 @@ public class MazeGeneratorSolverTest {
         MazeFileReader readMaze = new MazeFileReader();
         try {
             MazeGeneratorSolver testMaze = new MazeGeneratorSolver(readMaze.mazeFileReader(new File("sampleInputs/customTestMaze.txt")));
-            String fileName = "data/testMazeKey.txt";
+            String fileName = "data/customTestMazeResult.txt";
             testMaze.solveMaze(fileName);
             assertTrue(new File(fileName).exists());
             BufferedReader br1 = new BufferedReader(new FileReader(fileName));
