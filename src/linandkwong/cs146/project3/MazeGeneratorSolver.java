@@ -70,7 +70,7 @@ public class MazeGeneratorSolver {
 
     public static void main(String[] args) {
         Random r = new Random();
-        r.setSeed(100);
+//        r.setSeed(100);
         MazeGeneratorSolver randomMaze = new MazeGeneratorSolver(4, 4, r);
         randomMaze.solveMaze("data/test1.txt");
     }
